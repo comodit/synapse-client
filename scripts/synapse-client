@@ -1,0 +1,21 @@
+_synapse-client() {
+    local cur opts comp_arg
+
+    cur="${COMP_WORDS[COMP_CWORD]}"
+
+    # If the current command contains at least one dot.
+    if [[ ${cur} == -* ]]
+    then
+        # Complete with options
+        comp_arg="--completion-option"
+    else
+        # Otherwise, complete without options.
+        comp_arg="--completion"
+    fi
+
+    # Append to the command the com_arg.
+    opts=`eval ${COMP_WORDS[*]} ${comp_arg}`
+    COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+}
+
+complete -F _synapse-client synapse-client

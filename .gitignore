@@ -1,0 +1,12 @@
+.project
+.pydevproject
+*.egg-info
+.ropeproject
+.settings
+*.pyc
+*.spec
+*.sw[iox]
+build/
+dist/
+*.sw[po]
+version.py

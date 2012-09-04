@@ -1,0 +1,7 @@
+doc/main/_build/man/synapse-client.1
+doc/host/_build/man/synapse-client-hosts.1
+doc/group/_build/man/synapse-client-groups.1
+doc/package/_build/man/synapse-client-packages.1
+doc/command/_build/man/synapse-client-commands.1
+doc/user/_build/man/synapse-client-users.1
+doc/file/_build/man/synapse-client-files.1

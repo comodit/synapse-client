@@ -1,0 +1,98 @@
+%{!?python_sitelib: %global python_sitelib %(%{__python} -c "from %distutils.sysconfig import get_python_lib; print(get_python_lib())")}
+
+%define main_package syncli
+
+Name: synapse-client
+Version: #VERSION#
+Release: #RELEASE#%{?dist}
+Summary: Synapse Client
+
+Group: System Environment/Applications
+License: MIT
+Source0: %{name}-%{version}-#RELEASE#.tar.gz
+
+BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+BuildArch: noarch
+
+URL: http://github.com/comodit/synapse-client
+Packager: Raphael De Giusti <raphael.degiusti@gmail.com>
+
+BuildRequires: python-devel
+BuildRequires: python-setuptools
+%if 0%{?rhel}
+BuildRequires: python-sphinx10
+%endif
+%if 0%{?fedora}
+BuildRequires: python-sphinx
+%endif
+
+
+Requires: python >= 2.6
+Requires: python(abi) >= 2.6
+Requires: python-pika-ssl
+
+%description
+
+%prep
+%setup -c
+
+%build
+%{__python} setup.py build
+
+%if 0%{?rhel}
+%{__make} -C doc/ SPHINXBUILD=sphinx-1.0-build clean man
+%endif
+
+%if 0%{?fedora}
+%{__make} -C doc/ clean man
+%endif
+
+%install
+%{__rm} -rf %{buildroot}
+
+%{__python} setup.py install -O1 --skip-build --root %{buildroot}
+
+%{__mkdir} -p %{buildroot}/etc/synapse-client
+%{__mkdir} -p %{buildroot}/etc/bash_completion.d/
+%{__mkdir} -p %{buildroot}/%{_mandir}/man1
+
+%{__cp} bin/synapse-client %{buildroot}/usr/bin/synapse-client
+%{__cp} scripts/synapse-client %{buildroot}/etc/bash_completion.d/synapse-client
+%{__cp} conf/synapse-client-logger.conf %{buildroot}/etc/synapse-client/synapse-client-logger.conf
+%{__cp} conf/synapse-client.conf %{buildroot}/etc/synapse-client/synapse-client.conf
+
+# Man pages
+%{__cp} doc/command/_build/man/synapse-client-commands.1 %{buildroot}/%{_mandir}/man1/synapse-client-commands.1
+%{__cp} doc/file/_build/man/synapse-client-files.1 %{buildroot}/%{_mandir}/man1/synapse-client-files.1
+%{__cp} doc/group/_build/man/synapse-client-groups.1 %{buildroot}/%{_mandir}/man1/synapse-client-groups.1
+%{__cp} doc/host/_build/man/synapse-client-hosts.1 %{buildroot}/%{_mandir}/man1/synapse-client-hosts.1
+%{__cp} doc/package/_build/man/synapse-client-packages.1 %{buildroot}/%{_mandir}/man1/synapse-client-packages.1
+%{__cp} doc/user/_build/man/synapse-client-users.1 %{buildroot}/%{_mandir}/man1/synapse-client-users.1
+
+%{__rm} -rf %{buildroot}/usr/conf
+%{__rm} -rf %{buildroot}/usr/scripts
+%{__rm} -rf %{buildroot}/%{python_sitelib}/*.egg-info
+
+%clean
+%{__rm} -rf %{buildroot}
+
+%files
+
+%config(noreplace) /etc/synapse-client/synapse-client.conf
+%config(noreplace) /etc/synapse-client/synapse-client-logger.conf
+%{python_sitelib}/%{main_package}*
+/etc/bash_completion.d/synapse-client
+
+%defattr(755,root,root,-)
+/usr/bin/synapse-client
+
+%doc %{_mandir}/man1/synapse-client-commands.1.gz
+%doc %{_mandir}/man1/synapse-client-files.1.gz
+%doc %{_mandir}/man1/synapse-client-groups.1.gz
+%doc %{_mandir}/man1/synapse-client-hosts.1.gz
+%doc %{_mandir}/man1/synapse-client-packages.1.gz
+%doc %{_mandir}/man1/synapse-client-users.1.gz
+
+%changelog
+* Fri Jul 13 2012 - raphael.degiusti (at) gmail.com
+- Added first changelog log

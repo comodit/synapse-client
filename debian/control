@@ -1,0 +1,14 @@
+Source: synapse-client
+Section: python
+Priority: optional
+Maintainer: Raphael De Giusti <raphael.degiusti@gmail.com>
+Build-Depends: debhelper (>=8.0.0~), python-support (>= 0.6), python-all-dev, cdbs
+XS-Python-Version: >=2.6
+Standards-Version: 3.9.1.0
+
+Package: synapse-client
+Architecture: all
+Homepage: http://www.github.com/comodit/synapse-client
+XB-Python-Version: ${python:Versions}
+Depends: ${misc:Depends}, ${python:Depends}, python-pika-ssl
+Description: distribution-agnostic host management
