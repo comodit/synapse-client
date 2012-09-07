@@ -30,7 +30,7 @@ default_config = {
 def get_config_path(filename):
 
     user_path = join(expanduser('~'), '.synapse-client', filename)
-    etc_path = join("/etc/synapse", filename)
+    etc_path = join("/etc/synapse-client", filename)
     curdir_path = abspath(join(dirname(__file__), '..', 'conf', filename))
 
     for loc in user_path, etc_path, curdir_path:
