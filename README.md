@@ -4,4 +4,4 @@ Example of use:
 
 ```bash
 synapse-client services syslog-ng restart --filter_hosts *.guardis.be
-``
+```
